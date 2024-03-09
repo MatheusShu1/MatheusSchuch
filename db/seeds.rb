@@ -14,24 +14,37 @@ Person.destroy_all
 User.create email: 'admin@admin.com', password: '111111'
 
 
-1000.times do
-  User.create email: Faker::Internet.email, password: '111111'
+50.times do
+  User.create email: Faker::Internet.email, password: Faker::Internet.password
 end
 
-50000.times do |counter|
-  puts "Inserting #{counter}"
+puts "50 Usuários criados!"
 
-  attrs = {
+100.times do 
+  Person.create!(
     name: Faker::Name.name,
     phone_number: Faker::PhoneNumber.phone_number,
     national_id: CPF.generate,
     active: [true, false].sample,
     user: User.order('random()').first
-  }
-  Person.create attrs
+  )
 end
 
+puts "-----------------------------------------------"
+puts " 100 Pessoas criadas!"
 
+500.times do
+Debt.create!(
+  amount: Faker::Number.decimal(l_digits: 2),
+  person: Person.order('random()').first,
+  observation: Faker::Lorem.sentence
+)
+end
+puts "-----------------------------------------------"
+puts " 1 Dívida criada!"
+
+puts "-----------------------------------------------"
+puts "Usuário padrão criado:"
 puts "Usuário criado:"
 puts "login admin@admin.com"
 puts "111111"
