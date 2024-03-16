@@ -47,6 +47,8 @@ gem "bootsnap", require: false
 
 gem "cpf_cnpj"
 gem "faker"
+gem 'rails_performance'
+gem 'will_paginate', '~> 4.0'
 gem 'devise'
 gem "devise-i18n"
 gem "devise-bootstrap5"

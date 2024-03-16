@@ -8,19 +8,27 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+puts "-----------------------------------------------"
+puts "Iniciando a criação de registros no banco de dados"
+
+puts "-----------------------------------------------"
+puts "Deletando registros antigos"
 User.destroy_all
 Person.destroy_all
+Debt.destroy_all
 
+puts "-----------------------------------------------"
+puts "Criando registros"
 User.create email: 'admin@admin.com', password: '111111'
 
 
-50.times do
+3000.times do
   User.create email: Faker::Internet.email, password: Faker::Internet.password
 end
 
-puts "50 Usuários criados!"
+puts " Usuários criados!"
 
-100.times do 
+3000.times do 
   Person.create!(
     name: Faker::Name.name,
     phone_number: Faker::PhoneNumber.phone_number,
@@ -31,9 +39,9 @@ puts "50 Usuários criados!"
 end
 
 puts "-----------------------------------------------"
-puts " 100 Pessoas criadas!"
+puts " Pessoas criadas!"
 
-500.times do
+3000.times do
 Debt.create!(
   amount: Faker::Number.decimal(l_digits: 2),
   person: Person.order('random()').first,
@@ -41,7 +49,7 @@ Debt.create!(
 )
 end
 puts "-----------------------------------------------"
-puts " 1 Dívida criada!"
+puts " Dívidas criadas!"
 
 puts "-----------------------------------------------"
 puts "Usuário padrão criado:"
