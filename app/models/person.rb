@@ -3,6 +3,8 @@ class Person < ApplicationRecord
 
   has_many :debts, dependent: :destroy
 
+  has_many :payments, dependent: :destroy
+
   validates :name, :national_id, presence: true
   validates :national_id, uniqueness: true
   validate :cpf_or_cnpj
@@ -12,15 +14,31 @@ class Person < ApplicationRecord
   # - improve performance using SQL
   # - sum payments
   # - rename to "balance"
-  def total_debts
-    total = 0
+  # def total_debts
+  #   total_debts = 0
 
-    debts.each do |debt|
-      total -= debt.amount
-    end
+  #   debts.each do |debt|
+  #     total_debts -= debt.amount
+  #   end
+  #   total_debts
+  # end
 
-    total
-  end
+  # def total_payments
+  #   total_payments = 0
+
+  #   payments.each do |payment|
+  #     total_payments += payment.amount
+  #   end
+  #     total_payments
+  # end
+
+  # def balance
+  #  totalAccount = total_debts + total_payments
+  # end
+ 
+def balance
+  payments.sum(:amount) - debts.sum(:amount)
+end
 
   private
 
