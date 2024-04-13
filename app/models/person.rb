@@ -37,7 +37,13 @@ class Person < ApplicationRecord
   # end
  
 def balance
-  payments.sum(:amount) - debts.sum(:amount)
+  Rails.cache.fetch("#{self.id}/balance", expires_in: 12.hours) do
+    payments.sum(:amount) - debts.sum(:amount)
+  end
+end
+
+def clear_balance_cache
+  Rails.cache.delete("#{self.id}/balance")
 end
 
   private
