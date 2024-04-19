@@ -9,6 +9,12 @@ class Person < ApplicationRecord
   validates :national_id, uniqueness: true
   validate :cpf_or_cnpj
 
+  after_save :clear_cache
+  after_destroy :clear_cache
+
+    after_commit :clear_my_people_cache
+
+
   # TODO: refactor me
   #
   # - improve performance using SQL
@@ -47,6 +53,16 @@ def clear_balance_cache
 end
 
   private
+
+  def clear_cache
+    Rails.cache.delete('active_people_pie_chart')
+    Rails.cache.delete('people_with_positive_balance')
+    clear_balance_cache
+  end
+
+  def clear_my_people_cache
+    Rails.cache.delete("#{self.user.id}/my_people")
+  end
 
   def cpf_or_cnpj
     if !CPF.valid?(national_id) && !CNPJ.valid?(national_id)
